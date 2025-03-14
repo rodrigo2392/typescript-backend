@@ -2,7 +2,6 @@
   "name": "backend-ts",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "echo \"hola mundo\" ",
