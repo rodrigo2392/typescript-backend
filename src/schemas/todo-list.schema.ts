@@ -8,17 +8,26 @@ export type TTodoList = {
 
 export interface ITodoList extends TTodoList, Document {}
 
-const todoListSchema = new Schema({
-  title: {
-    type: String,
+const todoListSchema = new Schema(
+  {
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    done: {
+      type: Boolean,
+    },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
   },
-  description: {
-    type: String,
-  },
-  done: {
-    type: Boolean,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const TodoList = model("todoList", todoListSchema);
 
