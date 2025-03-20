@@ -32,7 +32,7 @@ class TodoRepository {
       },
       {
         new: true,
-      }
+      },
     );
 
     return updatedItem;
@@ -43,7 +43,7 @@ class TodoRepository {
       { _id, user },
       {
         archived: true,
-      }
+      },
     );
   }
 }

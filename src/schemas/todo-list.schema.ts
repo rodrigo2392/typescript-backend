@@ -28,7 +28,7 @@ export const todoListSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const TodoList = model("todoList", todoListSchema);

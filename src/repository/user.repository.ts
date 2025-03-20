@@ -37,7 +37,7 @@ class UserRepository {
       },
       {
         new: true,
-      }
+      },
     );
 
     return updatedItem;
@@ -48,7 +48,7 @@ class UserRepository {
       { _id },
       {
         active: false,
-      }
+      },
     );
   }
 

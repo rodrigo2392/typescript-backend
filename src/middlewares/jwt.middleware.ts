@@ -4,7 +4,7 @@ import { ValidateToken } from "../utils/jwt.util";
 export async function validateToken(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const header = req.header("Authorization") || "";
