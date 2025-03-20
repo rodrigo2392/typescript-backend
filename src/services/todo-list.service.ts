@@ -4,11 +4,12 @@ interface CreateTodoDTO {
   title: string;
   description: string;
   done: boolean;
+  user: string;
 }
 
 class TodoService {
-  async getAll() {
-    return TodoRepository.findAll();
+  async getAll(user_id: string) {
+    return TodoRepository.findAll(user_id);
   }
 
   async getById(id: string) {
@@ -19,12 +20,12 @@ class TodoService {
     return TodoRepository.create(createDTO);
   }
 
-  async update(_id: string, updateDTO: Partial<CreateTodoDTO>) {
-    return TodoRepository.update(_id, updateDTO);
+  async update(_id: string, user: string, updateDTO: Partial<CreateTodoDTO>) {
+    return TodoRepository.update(_id, user, updateDTO);
   }
 
-  async remove(id: string) {
-    return TodoRepository.delete(id);
+  async remove(id: string, user: string) {
+    return TodoRepository.delete(id, user);
   }
 }
 

@@ -1,14 +1,15 @@
-import { Document, model, Schema } from "mongoose";
+import mongoose, { Document, model, Schema } from "mongoose";
 
 export type TTodoList = {
   title: string;
   description: string;
   done: boolean;
+  user: string;
 };
 
 export interface ITodoList extends TTodoList, Document {}
 
-const todoListSchema = new Schema(
+export const todoListSchema = new Schema(
   {
     title: {
       type: String,
@@ -23,6 +24,7 @@ const todoListSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    user: { type: mongoose.Types.ObjectId, ref: "user" },
   },
   {
     timestamps: true,

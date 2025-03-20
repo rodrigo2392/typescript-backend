@@ -12,8 +12,10 @@ class TodoRepository {
     return await addedTodo.save();
   }
 
-  async findAll() {
-    const result = await TodoModel.find({ archived: false });
+  async findAll(user: string) {
+    const result = await TodoModel.find({ user, archived: false })
+      .populate("user")
+      .exec();
     return result;
   }
 
@@ -22,9 +24,9 @@ class TodoRepository {
     return result;
   }
 
-  async update(_id: string, todoChanges: Partial<CreateTodoDTO>) {
+  async update(_id: string, user: string, todoChanges: Partial<CreateTodoDTO>) {
     const updatedItem = await TodoModel.findOneAndUpdate(
-      { _id },
+      { _id, user },
       {
         $set: todoChanges,
       },
@@ -36,9 +38,9 @@ class TodoRepository {
     return updatedItem;
   }
 
-  async delete(_id: string) {
+  async delete(_id: string, user: string) {
     await TodoModel.findOneAndUpdate(
-      { _id },
+      { _id, user },
       {
         archived: true,
       }
