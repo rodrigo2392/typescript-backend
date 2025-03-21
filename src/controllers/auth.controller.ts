@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import UserService from "../services/user.service";
 import { ValidateToken } from "../utils/jwt.util";
+import { compare } from "../utils/encrypt";
+import OtpService from "../services/otp.service";
+import otpRepository from "../repository/otp.repository";
 
 class AuthController {
   async login(req: Request, res: Response) {
@@ -21,6 +24,7 @@ class AuthController {
         name,
         password,
       });
+      await OtpService.create(email);
       res.status(200).json({ data: "ok" });
     } catch (error) {
       res.status(500).json({ error });
@@ -53,6 +57,44 @@ class AuthController {
       }
     } catch (error) {
       res.status(401).json({ error });
+    }
+  }
+
+  async generateNewOtp(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+      await OtpService.create(email);
+      res.status(200).json({ data: "ok" });
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
+  }
+
+  async validateOTP(req: Request, res: Response) {
+    try {
+      const { email, code } = req.body;
+      const user = await UserService.getByEmail(email);
+      if (!user) {
+        res.status(404).json({ error: "user not found" });
+      }
+
+      const found = await otpRepository.find(email);
+      if (!found) {
+        res.status(404).json({ error: "code not found" });
+      }
+      const isValid = await compare(code, found.code ?? "");
+
+      if (!isValid) {
+        res.status(403).json({ error: "code not correct" });
+      }
+
+      await UserService.update(user?._id.toString() ?? "", {
+        verified: true,
+      });
+
+      res.status(200).json({ data: "user verified" });
+    } catch (error) {
+      res.status(500).json({ error });
     }
   }
 }
