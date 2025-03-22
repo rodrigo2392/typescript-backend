@@ -1,6 +1,10 @@
 import "dotenv/config";
 import { ConnectDatabase } from "./database";
-import server from "./server";
+import CreateServer from "./server";
+const port = process.env.PORT ?? 4000;
 
 ConnectDatabase();
-server.startServer();
+const app = CreateServer();
+app.listen(port, () => {
+  console.log(`servidor funcionando ${port}`);
+});

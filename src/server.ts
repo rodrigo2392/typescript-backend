@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express, { Express } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import TodoRoutes from "./routes/todo-list.routes";
 import UserRoutes from "./routes/user.routes";
@@ -8,35 +8,21 @@ import { validateToken } from "./middlewares/jwt.middleware";
 import { rateLimit } from "express-rate-limit";
 import errorHandler from "./middlewares/errorHandler.middleware";
 
-class Server {
-  app: Express;
-  constructor() {
-    this.app = express();
-  }
-  startServer() {
-    const port = process.env.PORT ?? 4000;
-    const limiter = rateLimit({
-      windowMs: 1 * 60 * 1000,
-      limit: 100,
-      standardHeaders: true,
-      legacyHeaders: false,
-    });
-    this.app.disable("x-powered-by");
-    this.app.use(bodyParser.json());
-    this.app.use(limiter);
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-    this.app.use("/todos", validateToken, TodoRoutes);
-    this.app.use("/users", validateToken, UserRoutes);
-    this.app.use("/auth", AuthRoutes);
-
-    this.app.use(errorHandler);
-
-    this.app.listen(port, () => {
-      console.log(`servidor funcionando ${port}`);
-    });
-  }
+export default function CreateServer() {
+  const app = express();
+  app.disable("x-powered-by");
+  app.use(bodyParser.json());
+  app.use(limiter);
+  app.use("/todos", validateToken, TodoRoutes);
+  app.use("/users", validateToken, UserRoutes);
+  app.use("/auth", AuthRoutes);
+  app.use(errorHandler);
+  return app;
 }
-
-const server = new Server();
-
-export default server;

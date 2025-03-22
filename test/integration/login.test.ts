@@ -2,9 +2,10 @@ import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import userService from "../../src/services/user.service";
-import server from "../../src/server";
+import CreateServer from "../../src/server";
 import { Express } from "express";
 let mongoServer: MongoMemoryServer;
+
 let app: Express;
 
 beforeAll(async () => {
@@ -12,15 +13,13 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
-  server.startServer();
-  app = server.app;
+  app = CreateServer();
 });
 
 afterAll(async () => {
   await mongoose.disconnect();
   await mongoServer.stop();
 });
-
 describe("Authentication endpoint", () => {
   it("Should return 401 for incorrect email/password", async () => {
     const res = await request(app).post("/auth/login").send({
