@@ -25,7 +25,6 @@ class UserRepository {
   }
 
   async findByEmail(email: string) {
-    console.log({ email });
     const result = await UserModel.findOne({ email, active: true });
     return result;
   }

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "build": "tsc",
-    "test": "echo \"hola mundo\" ",
     "lint": "eslint src/**/*.ts",
     "dev": "nodemon --watch src/** --ext ts,json --ignore src/**/*.spec.ts --exec ts-node src/main.ts",
     "start": "npm run build && npm run dev",
@@ -33,13 +33,20 @@
     "typescript-eslint": "^8.26.1"
   },
   "dependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/supertest": "^6.0.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
     "mongoose": "^8.12.1",
     "resend": "^4.1.2",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.2.6",
     "zod": "^3.24.2"
   }
 }
