@@ -7,6 +7,7 @@ import AuthRoutes from "./routes/auth.routes";
 import { validateToken } from "./middlewares/jwt.middleware";
 import { rateLimit } from "express-rate-limit";
 import errorHandler from "./middlewares/errorHandler.middleware";
+import cors from "cors";
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -17,10 +18,11 @@ const limiter = rateLimit({
 
 export default function CreateServer() {
   const app = express();
+  app.use(cors());
   app.disable("x-powered-by");
   app.use(bodyParser.json());
   app.use(limiter);
-  app.use("/todos", validateToken, TodoRoutes);
+  app.use("/todos", TodoRoutes);
   app.use("/users", validateToken, UserRoutes);
   app.use("/auth", AuthRoutes);
   app.use(errorHandler);

@@ -9,7 +9,7 @@ interface CreateTodoDTO {
 
 class TodoService {
   async getAll(user_id: string) {
-    return TodoRepository.findAll(user_id);
+    return await TodoRepository.findAll(user_id);
   }
 
   async getById(id: string) {
