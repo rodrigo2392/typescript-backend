@@ -24,7 +24,7 @@ export default function CreateServer() {
   app.use(limiter);
   app.get("/", (req, res) => {
     res.json({
-      message: "Deplgeado a producción",
+      message: "Desplegado a producción",
     });
   });
   app.use("/todos", TodoRoutes);
