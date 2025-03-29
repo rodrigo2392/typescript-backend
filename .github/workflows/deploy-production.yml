@@ -27,8 +27,10 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           key: ${{secrets.SSH_KEY}}
           script: |
+            pm2 stop todolist
             cd /home/ec2-user/backend
             git reset --hard
             git pull origin master
             npm install
             npm run build
+            pm2 start todolist
