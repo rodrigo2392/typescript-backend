@@ -20,3 +20,15 @@ jobs:
         run: npm test
       - name: build
         run: npm run build
+      - name: connect to aws
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SHH_HOST}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          script: |
+            cd /home/ec2-user/backend
+            git reset --hard
+            git pull origin master
+            npm install
+            npm run build
