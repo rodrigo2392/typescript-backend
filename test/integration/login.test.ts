@@ -26,7 +26,7 @@ describe("Authentication endpoint", () => {
       email: "itic.rodrigomg@gmail.com",
       password: "test123",
     });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(401);
     expect(res.body.error?.message).toBe("invalid credentials");
   });
 
