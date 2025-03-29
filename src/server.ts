@@ -22,6 +22,11 @@ export default function CreateServer() {
   app.disable("x-powered-by");
   app.use(bodyParser.json());
   app.use(limiter);
+  app.get("/", (req, res) => {
+    res.json({
+      message: "Deplgeado a producción",
+    });
+  });
   app.use("/todos", TodoRoutes);
   app.use("/users", validateToken, UserRoutes);
   app.use("/auth", AuthRoutes);
